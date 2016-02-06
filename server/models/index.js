@@ -11,20 +11,61 @@ var headers = {
 
 module.exports = {
   messages: {
-    get: function (response, data, statusCode) {
-      statusCode = statusCode || 200;
-      response.writeHead(statusCode, headers);
-      response.end(JSON.stringify(data));
+    get: function (response) {
+      db.dbConnection.connect();
+      db.query('SELECT content FROM messages', [], function(err, results) {
+        response.writeHead(200, headers);
+        response.end(JSON.stringify(results));
+      });
+      db.dbConnection.end();
     }, // a function which produces all the messages
-    post: function () {
-      
+    post: function (request) {
+      var data = '';
+      request.on('data', function(chunk) {
+        data += chunk;
+      }).on('end', function() {
+        db.dbConnection.connect();
+        console.log(data);
+        db.dbConnection.query('INSERT INTO messages () VALUES (' + ')', [], function(err, results) {
+          if (err) {
+            throw err;
+          } else {
+            console.log('Successfully posted data to database');
+          }
+        });    
+        db.dbConnection.end();
+      });
+
     } // a function which can be used to insert a message into the database
   },
 
   users: {
     // Ditto as above.
-    get: function () {},
-    post: function () {}
+    get: function (response) {
+      //TODO: refactor to DRY relative to above get request
+      db.dbConnection.connect();
+      db.query('SELECT name FROM users', [], function(err, results) {
+        response.writeHead(200, headers);
+        response.end(JSON.stringify(results));
+      })
+    },
+    post: function (request) {
+      var data = '';
+      request.on('data', function(chunk) {
+        data += chunk;
+      }).on('end', function() {
+        db.dbConnection.connect();
+        console.log(data);
+        db.dbConnection.query('INSERT INTO users () VALUES (' + ')', [], function(err, results) {
+          if (err) {
+            throw err;
+          } else {
+            console.log('Successfully posted user to database');
+          }
+        });    
+        db.dbConnection.end();
+      });
+    }
   }
 };
 

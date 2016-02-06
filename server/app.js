@@ -23,7 +23,8 @@ app.use(parser.json());
 app.use('/classes', router);
 
 // Serve the client files
-
+console.log('test');
+app.use(express.static(path.join(__dirname + '/../bower_components/jquery/dist')));
 app.use(express.static(__dirname + '/../client'));
 
 // If we are being run directly, run the server.

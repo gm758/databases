@@ -47,7 +47,7 @@ module.exports = {
       db.query('SELECT name FROM users', [], function(err, results) {
         response.writeHead(200, headers);
         response.end(JSON.stringify(results));
-      })
+      });
     },
     post: function (request) {
       var data = '';

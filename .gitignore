@@ -1,7 +1,7 @@
 ### node etc ###
 
 # Config Data
-config.js
+serverConfig.js
 
 # Logs
 logs

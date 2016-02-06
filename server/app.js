@@ -1,5 +1,6 @@
 var express = require('express');
 var db = require('./db');
+var path = require('path');
 
 // Middleware
 var morgan = require('morgan');
@@ -22,6 +23,7 @@ app.use(parser.json());
 app.use('/classes', router);
 
 // Serve the client files
+
 app.use(express.static(__dirname + '/../client'));
 
 // If we are being run directly, run the server.

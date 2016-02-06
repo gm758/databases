@@ -1,4 +1,4 @@
-var db = require('../db');
+var db = require('../schema.js');
 
 var headers = {
   "access-control-allow-origin": "*",

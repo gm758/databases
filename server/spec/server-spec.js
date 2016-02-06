@@ -4,7 +4,7 @@
 var mysql = require('mysql');
 var request = require('request'); // You might need to npm install the request module!
 var expect = require('../../node_modules/chai/chai').expect;
-var config = require('./serverConfig.js');
+var config = require('../serverConfig.js');
 
 describe('Persistent Node Chat Server', function() {
   var dbConnection;

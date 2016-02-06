@@ -1,18 +1,19 @@
-CREATE DATABASE IF NOT EXISTS chat;
+DROP DATABASE chat;
+CREATE DATABASE chat;
 
 USE chat;
 
 
 CREATE TABLE users (
   id INT AUTO_INCREMENT,
-  username TEXT,
+  username varchar(15),
   PRIMARY KEY (id),
   UNIQUE(username)
 );
 
 CREATE TABLE rooms (
   id INT AUTO_INCREMENT,
-  roomname TEXT,
+  roomname varchar(15),
   PRIMARY KEY (id),
   UNIQUE(roomname)
 );

@@ -17,20 +17,18 @@ module.exports = {
                   'INNER JOIN rooms as r ON (r.id=m.room_id)';
 
       db.dbConnection.query(queryString, [], function(err, results) {
-        console.log(results);
         response.writeHead(200, headers);
         response.end(JSON.stringify({results: results}));
       });
     }, // a function which produces all the messages
-    post: function (request) {
+    post: function (request, callback) {
       //TODO: fix callback hell
       var data = request.body;
-      debugger;
-      db.dbConnection.query('INSERT IGNORE INTO users (username) VALUES (?)', [data.username], function(err, results) {
+      db.dbConnection.query('INSERT IGNORE INTO users SET ?', {username: data.username}, function(err, results) {
         if (err) {
           throw err;
         } else {
-          db.dbConnection.query('INSERT IGNORE INTO rooms (roomname) VALUES (?)', [data.roomname], function(err, results) {
+          db.dbConnection.query('INSERT IGNORE INTO rooms SET ?', {roomname: data.roomname}, function(err, results) {
             if (err) {
               throw err;
             } else {
@@ -43,13 +41,16 @@ module.exports = {
                   var roomIdQueryString = 'SELECT * FROM rooms WHERE roomname=?';
                   db.dbConnection.query(roomIdQueryString, [data.roomname], function(err, results) {
                     var roomId = results[0].id;
-                    var messageQueryString = 'INSERT INTO messages (content, userId, roomId) VALUES (?,?,?)';
-                    db.dbConnection.query(messageQueryString, [data.text, userId, roomId], function(err, results) {
+                    var messageQueryString = 'INSERT INTO messages SET ?';
+                    console.log(data);
+                    var queryArgs = {content: data.text, 'user_id': userId, 'room_id': roomId};
+                    db.dbConnection.query(messageQueryString, queryArgs, function(err, results) {
                       if (err) {
                         console.log('an error occured');
                         throw err;
                       } else {
                         console.log('sql insertion successfuly');
+                        callback();
                       }
                     });
                   });
@@ -72,21 +73,17 @@ module.exports = {
         response.end(JSON.stringify(results));
       });
     },
-    post: function (request) {
-      var data = '';
-      request.on('data', function(chunk) {
-        data += chunk;
-      }).on('end', function() {
-        db.dbConnection.connect();
-        console.log(data);
-        db.dbConnection.query('INSERT INTO users () VALUES (' + ')', [], function(err, results) {
-          if (err) {
-            throw err;
-          } else {
-            console.log('Successfully posted user to database');
-          }
-        });    
-        db.dbConnection.end();
+    post: function (request, callback) {
+      var data = request.body;
+      var queryString = 'INSERT IGNORE INTO users (username) VALUES (?)';
+      db.dbConnection.query(queryString, [data.username], function(err, results) {
+        if (err) {
+          console.log('an error occured');
+          throw err;
+        } else {
+          console.log('sql insertion successful');
+          callback();
+        }
       });
     }
   }

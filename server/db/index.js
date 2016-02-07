@@ -29,10 +29,8 @@ User.sync({force: true}).then(function() {
   }).then(function(){
     Message.sync({force: true}).then(function() {
       Message.create({content: 'Welcome!', 'RoomId': 1, 'UserId': 1}).then(function() {
-        console.log('test 1');
         Message.findAll({include: [User]}).then(function(result){
-          console.log(result);
-          console.log('test 2');
+          console.log('successfully created welcome message');
         });
       });
     });

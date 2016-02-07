@@ -72,7 +72,7 @@ describe('Persistent Node Chat Server', function() {
     var roomIdQuery = "SELECT * FROM rooms WHERE roomname='main'";
     var userIdQuery = "SELECT * FROM users WHERE username='testuser'";
 
-    var queryString = "INSERT INTO messages SET ?";
+    var queryString = "INSERT INTO messages (content, user_id, room_id) SET ?";
     // TODO - The exact query string and query args to use
     // here depend on the schema you design, so I'll leave
     // them up to you. */

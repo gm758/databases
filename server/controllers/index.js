@@ -1,9 +1,17 @@
 var models = require('../models');
-
+var orm = require('../db/index.js');
 module.exports = {
   messages: {
     get: function (req, res) {
       console.log('get messages');
+      orm.Message.findAll({include: [orm.User, orm.Room]})
+                .complete(function(err, result) {
+                  if (err) {
+                    throw err;
+                  } else {
+                    res.json(result);
+                  }
+                })
       models.messages.get(res);
     }, // a function which handles a get request for all messages
     post: function (req, res) {

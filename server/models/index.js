@@ -11,6 +11,8 @@ var headers = {
 
 module.exports = {
   messages: {
+
+
     get: function (response) {
       var queryString = 'SELECT m.id AS objectId, username, content AS text, roomname FROM ' +
                   'users as u INNER JOIN messages as m ON (u.id=m.user_id) ' +

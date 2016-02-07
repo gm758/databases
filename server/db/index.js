@@ -1,4 +1,4 @@
-var config = require('zethsdthbx/serverConfig.js');
+var config = require('../serverConfig.js');
 
 var Sequelize = require('sequelize');
 sequelize = new Sequelize('chat', 'root', config.MYSQL_PASSWORD);
@@ -28,7 +28,7 @@ User.sync({force: true}).then(function() {
     Room.create({roomname: 'lobby'});
   }).then(function(){
     Message.sync({force: true}).then(function() {
-      Message.create({content: 'Welcome!', 'user_id': 1, 'room_id': 1}).then(function() {
+      Message.create({content: 'Welcome!', 'RoomId': 1, 'UserId': 1}).then(function() {
         console.log('test 1');
         Message.findAll({include: [User]}).then(function(result){
           console.log(result);
@@ -40,6 +40,8 @@ User.sync({force: true}).then(function() {
 });
 
 
-
+exports.User = User;
+exports.Room = Room;
+exports.Message = Message;
 
 
